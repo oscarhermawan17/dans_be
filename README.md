@@ -13,7 +13,7 @@
 
 ### What Api this server serve
 | Route              | Method | Body               | Headers | Query                           | Param |
-| -------------      |:------:| :-----------------:|---------|-------------------------------- |       |
+| -------------      |:------:| :-----------------:|---------|-------------------------------- |-------|
 | /api/1/auth/login  | POST   | username, password |         |                                 |       |
 | /api/1/auth/signup | POST   | username, password |         |                                 |       |
 | /api/1/job         | GET    |                    | token   |description, location, full_time |       |
