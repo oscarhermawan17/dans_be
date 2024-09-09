@@ -35,12 +35,25 @@ jobRoutes.get('/', async (req, res) => {
   
     const paginatedJobs = jobs.slice(startIndex, endIndex);
 
-    res.json({
+    res.status(200).json({
       currentPage: page,
       totalJobs: jobs.length,
       totalPages: Math.ceil(jobs.length / limit),
       jobs: paginatedJobs
     });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch data' });
+  }
+})
+
+jobRoutes.get('/:id', async (req, res) => {
+  const idJobs = req.params.id
+
+  try {
+    const response = await axios.get('https://dev6.dansmultipro.com/api/recruitment/positions.json');
+    const jobDetail = response.data.find(job => job.id === idJobs)
+
+    res.status(200).json({ jobDetail: jobDetail });
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch data' });
   }

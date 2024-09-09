@@ -1,7 +1,7 @@
 // Modules
 const express = require('express');
 
-const { login, signIn } = require('../controllers/authController');
+const { login, signUp } = require('../controllers/authController');
 
 const authRoutes = express.Router();
 
@@ -17,9 +17,9 @@ authRoutes.post('/login', login);
 /* 
   Method: POST 
   Function: Register user
-  Route: /api/1/auth/signin
+  Route: /api/1/auth/signup
   Body: { username, password }
 */
-authRoutes.post('/signin', signIn);
+authRoutes.post('/signup', signUp);
 
 module.exports = authRoutes;

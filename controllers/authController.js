@@ -21,15 +21,22 @@ const login = async (req, res) => {
   }
 
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "2h",
   })
 
-  res.json({ token })
+  res.status(200).json({ token })
 }
 
-// SigIn Function
-const signIn = async (req, res) => {
+// SigUp Function
+const signUp = async (req, res) => {
   const { username, password } = req.body
+
+  const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[=+*#&])[A-Za-z\d=+*#&]{8,}$/;
+  const isPasswordStrong = regex.test(password);
+  
+  if(!isPasswordStrong) {
+    return res.status(400).json({ message: "Password is not strong enough" });
+  }
 
   try {
     const existingUser = await User.findOne({ where: { username } });
@@ -37,6 +44,8 @@ const signIn = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Username already taken" });
     }
+
+
 
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -76,4 +85,4 @@ const checkToken = async (req, res, next) => {
   }
 }
 
-module.exports = { login, signIn, checkToken }
+module.exports = { login, signUp, checkToken }
