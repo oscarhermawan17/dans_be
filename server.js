@@ -3,9 +3,7 @@ require("dotenv").config()
 const express = require("express")
 const cors = require("cors")
 
-const authRoutes = require("./routes/authRoutes")
-const jobRoutes = require("./routes/jobRoutes")
-const { checkToken } = require('./controllers/authController');
+const routeVersion1 = require("./routes/v1/routeVersion1")
 const { sequelize } = require("./models")
 
 const app = express()
@@ -22,13 +20,8 @@ app.use(
 
 const PORT = process.env.PORT || 3000
 
-// Auth Routes (Login, and SignIn)
-app.use("/api/1/auth", authRoutes)
-
-// JOB Routes
-app.use("/api/1/job", checkToken, jobRoutes)
-
-
+// Routing Version 1
+app.use("/api/1", routeVersion1)
 
 sequelize
   .authenticate()

@@ -5,7 +5,6 @@ const axios = require('axios');
 const jobRoutes = express.Router()
 
 const searchJob = (jobs, description, location, full_time) => {
-  console.log(typeof full_time, full_time)
   const jobsFilteredByDescription = description ? jobs.filter((job) => job.description.includes(description)) : jobs;
   const jobsFilteredByLocation = location ? jobsFilteredByDescription.filter((job) => job.location.includes(location)) : jobsFilteredByDescription;
   const jobsFilteredByFullTime = full_time ? jobsFilteredByLocation.filter((job) => job.type === "Full Time") :
@@ -24,7 +23,7 @@ jobRoutes.get('/', async (req, res) => {
 
   const description = req.query.description || "";
   const location = req.query.location || "";
-  const full_time = req.query.full_time === "true";
+  const full_time = req.query.full_time === "false" ? false : true
 
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
